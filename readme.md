@@ -135,7 +135,7 @@ npm install
 
 ```bash
 # Start backend (from server directory)
-flask run
+python app.py
 
 # Start frontend (from client directory)
 npm start
@@ -171,11 +171,51 @@ npm start
 - Describe your preferences
 - Request exchanges directly through chat
 
-## Future Improvements
+## Possible Short-Term Improvements
 
-- Enhanced Security: Add two-factor authentication and data encryption
-- User Interactions: Implement direct messaging and friend systems
-- Community Features: Introduce book ratings, likes, and social sharing
-- Rental System: Allow time-based rentals with deposit management
-- Mobile Experience: Develop native iOS/Android apps
-- Discovery Tools: Add wishlist alerts and ISBN scanning
+- Code Readability: Enhance code quality with better formatting and meaningful comments.
+- Improved UI: Design a more engaging and vibrant interface to improve user experience.
+- More Book Details: Include book images, genres, and other relevant information to simplify selection.
+- Enhanced Security: Implement two-factor authentication and robust data encryption to safeguard user data.
+
+## Possible Long-Term Features and Enhancements
+
+- User Interactions: Add direct messaging and a friend system for better social engagement.
+- Community Features: Enable book ratings, likes, and social sharing options to foster community involvement.
+- Rental System: Introduce a time-based rental feature with deposit tracking.
+- Mobile Experience: Develop dedicated apps for iOS and Android for seamless mobile access.
+- Discovery Tools: Include wishlist notifications and ISBN scanning for easier book discovery.
+
+## Web App Screens Overview
+
+### Login Page
+
+![alt text](image.png)
+
+### Register Page
+
+![alt text](image-1.png)
+
+### Home Page
+
+![alt text](image-2.png)
+
+### Add New Book Page
+
+![alt text](image-3.png)
+
+### User Book Collection
+
+![alt text](image-4.png)
+
+### User Exchange Requests Page → Exchange Requests
+
+![alt text](image-5.png)
+
+### Profile Page
+
+![alt text](image-6.png)
+
+### Book Recommendation Assistant
+
+![alt text](image-7.png)
