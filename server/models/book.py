@@ -1,4 +1,3 @@
-# models/book.py
 from extensions import db
 from datetime import datetime
 
@@ -12,7 +11,6 @@ class Book(db.Model):
     status = db.Column(db.String(20), default='available')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Define the relationship
     owner = db.relationship('User', backref='books_owned')
     
     def to_dict(self):

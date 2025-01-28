@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'; // Add this import
 
@@ -21,7 +20,7 @@ import {
   Alert,
   InputAdornment
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search'; // Add this import
+import SearchIcon from '@mui/icons-material/Search';
 import axios from 'axios';
 
 function Home({ accessToken }) {
@@ -38,7 +37,7 @@ function Home({ accessToken }) {
     newBookDescription: ''
   });
   const [searchQuery, setSearchQuery] = useState('');
-  const location = useLocation(); // Add this
+  const location = useLocation();
 
   useEffect(() => {
     fetchBooks();
@@ -132,7 +131,6 @@ function Home({ accessToken }) {
         }}
       />
 
-      {/* Changed this part to use filteredBooks */}
       {filteredBooks.length === 0 ? (
         <Alert severity="info">
           {books.length === 0 ? "No books available for exchange." : "No books match your search."}

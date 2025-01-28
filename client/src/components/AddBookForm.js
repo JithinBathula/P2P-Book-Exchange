@@ -34,7 +34,6 @@ function AddBookForm({ accessToken, onBookAdded }) {
             setSuccess(true);
             if (onBookAdded) onBookAdded();
             
-            // Clear success message after 3 seconds
             setTimeout(() => setSuccess(false), 3000);
         } catch (error) {
             setError(error.response?.data?.msg || 'Failed to add book. Please try again.');

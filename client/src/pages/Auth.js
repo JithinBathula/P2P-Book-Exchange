@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Add this import
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Paper,
@@ -14,7 +14,7 @@ import {
 import axios from 'axios';
 
 function Auth({ setAccessToken, setUser }) {
-  const navigate = useNavigate();  // Add this
+  const navigate = useNavigate();
   const [tab, setTab] = useState(0);
   const [formData, setFormData] = useState({
     username: '',
@@ -48,7 +48,7 @@ function Auth({ setAccessToken, setUser }) {
           localStorage.setItem('accessToken', response.data.access_token);
           localStorage.setItem('username', response.data.username);
           setUser({ username: response.data.username });
-          navigate('/');  // Add this line to navigate to home after login
+          navigate('/'); 
         } else {
           throw new Error('No access token received');
         }

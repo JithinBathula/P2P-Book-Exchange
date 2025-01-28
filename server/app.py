@@ -6,6 +6,12 @@ from extensions import db, jwt
 import os
 from routes.chatbot import chatbot_routes
 
+# Register blueprints
+from routes.auth import auth_routes
+from routes.books import book_routes
+from routes.exchanges import exchange_routes
+from routes.user import user_routes
+
 # Create the Flask application
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -18,14 +24,7 @@ jwt.init_app(app)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
 # Create static folders if they don't exist
-os.makedirs(app.config['STATIC_FOLDER'], exist_ok=True)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
-# Register blueprints
-from routes.auth import auth_routes
-from routes.books import book_routes
-from routes.exchanges import exchange_routes
-from routes.user import user_routes
 
 app.register_blueprint(auth_routes)
 app.register_blueprint(book_routes)

@@ -1,4 +1,3 @@
-# models/exchange.py
 from extensions import db
 from datetime import datetime
 
@@ -10,7 +9,6 @@ class Exchange(db.Model):
     status = db.Column(db.String(20), default='pending')  # pending, accepted, rejected
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    # Relationships
     book = db.relationship('Book', foreign_keys=[book_id])
     offered_book = db.relationship('Book', foreign_keys=[offered_book_id])
     requester = db.relationship('User', foreign_keys=[requester_id])

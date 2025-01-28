@@ -1,4 +1,3 @@
-// src/components/ChatBot.js
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Add this import
 import {

@@ -63,14 +63,12 @@ function BookList({ accessToken, onBookUpdate }) {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
 
-            // Clear form and refresh data
             setOfferedBookId(null);
             setNewBookTitle('');
             setNewBookAuthor('');
             setShowNewBookForm(false);
             setError(null);
             
-            // Refresh the books list
             fetchBooks();
             fetchUserBooks();
             

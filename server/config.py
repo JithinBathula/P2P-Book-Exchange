@@ -14,6 +14,3 @@ class Config:
     JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'jwt-secret-key')
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     
-    # Static file configuration
-    STATIC_FOLDER = os.path.join(BASE_DIR, 'static')
-    UPLOAD_FOLDER = os.path.join(STATIC_FOLDER, 'book_covers')

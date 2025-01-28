@@ -1,4 +1,3 @@
-# routes/auth.py
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
 from models.user import User
@@ -30,7 +29,7 @@ def register():
         return jsonify({"msg": "User created successfully"}), 201
         
     except Exception as e:
-        print(f"Registration error: {str(e)}")  # For debugging
+        print(f"Registration error: {str(e)}")
         return jsonify({"msg": "Error during registration"}), 500
 
 @auth_routes.route('/login', methods=['POST'])
@@ -53,5 +52,5 @@ def login():
         return jsonify({"msg": "Invalid credentials"}), 401
         
     except Exception as e:
-        print(f"Login error: {str(e)}")  # For debugging
+        print(f"Login error: {str(e)}")
         return jsonify({"msg": "Error during login"}), 500

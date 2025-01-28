@@ -1,4 +1,3 @@
-# routes/exchanges.py
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.exchange import Exchange
@@ -40,10 +39,10 @@ def request_exchange():
                 author=data['offered_book_author'],
                 description=data.get('offered_book_description', ''),
                 owner_id=current_user.id,
-                status='pending'  # New book starts as pending
+                status='pending'
             )
             db.session.add(new_book)
-            db.session.flush()  # Get ID for new book
+            db.session.flush()
             offered_book = new_book
 
         # Create the exchange request
@@ -65,20 +64,17 @@ def request_exchange():
         logging.error(f"Error creating exchange request: {str(e)}")
         db.session.rollback()
         return jsonify({"msg": "Error creating exchange request"}), 500
-# routes/exchanges.py
+
 @exchange_routes.route('/exchanges', methods=['GET'])
 @jwt_required()
 def get_exchanges():
     current_user = User.query.filter_by(username=get_jwt_identity()).first()
-    
-    # Get exchanges where user is either requester or book owner
-    # Order by created_at in descending order (latest first)
     exchanges = Exchange.query.join(
         Book, Exchange.book_id == Book.id
     ).filter(
         (Exchange.requester_id == current_user.id) | 
         (Book.owner_id == current_user.id)
-    ).order_by(Exchange.created_at.desc()).all()  # Added order_by here
+    ).order_by(Exchange.created_at.desc()).all()
     
     exchange_list = []
     for exchange in exchanges:

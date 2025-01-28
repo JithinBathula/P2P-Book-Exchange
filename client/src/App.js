@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material';
@@ -45,10 +44,6 @@ function App() {
     setUser(null);
   };
 
-  const handleChatbotExchange = (book) => {
-    // Navigate to home and trigger exchange dialog
-    Navigate('/', { state: { exchangeBook: book } });
-  };
 
   return (
     <ThemeProvider theme={theme}>

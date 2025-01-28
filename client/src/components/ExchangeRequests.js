@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function ExchangeRequests({ accessToken }) {
     const [requests, setRequests] = useState([]);
-    const [error, setError] = useState(null); // Add error state
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchRequests = async () => {
@@ -14,7 +14,7 @@ function ExchangeRequests({ accessToken }) {
                 setRequests(response.data);
             } catch (error) {
                 console.error("Error fetching requests:", error);
-                setError(error.response?.data?.msg || "Failed to fetch exchange requests"); // Set error message
+                setError(error.response?.data?.msg || "Failed to fetch exchange requests");
             }
         };
 
@@ -34,7 +34,6 @@ function ExchangeRequests({ accessToken }) {
             ));
         } catch (error) {
             console.error(`Error updating status to ${status}:`, error);
-            // Handle error, e.g., display an error message
             alert(`Error updating status to ${status}: ${error.response?.data?.msg || "An unknown error occurred."}`)
 
         }
@@ -43,7 +42,7 @@ function ExchangeRequests({ accessToken }) {
     return (
         <div>
             <h2>Exchange Requests</h2>
-            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error message */}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
 
             {requests.length === 0 ? (
                 <p>No exchange requests found.</p>

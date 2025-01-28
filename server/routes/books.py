@@ -1,4 +1,3 @@
-# routes/books.py
 from flask import Blueprint, request, jsonify, current_app
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.book import Book
@@ -49,13 +48,12 @@ def get_books():
     
     books = query.order_by(Book.created_at.desc()).all()
     return jsonify([book.to_dict() for book in books]), 200
-# routes/books.py
+
 @book_routes.route('/books/user', methods=['GET'])
 @jwt_required()
 def get_user_books():
     current_user = User.query.filter_by(username=get_jwt_identity()).first()
     
-    # Check if this is for exchange options
     is_for_exchange = request.args.get('for_exchange', 'false') == 'true'
     
     if is_for_exchange:
@@ -72,6 +70,7 @@ def get_user_books():
     
     return jsonify([book.to_dict() for book in books]), 200
 
+
 @book_routes.route('/books/<int:book_id>', methods=['DELETE'])
 @jwt_required()
 def delete_book(book_id):
@@ -80,15 +79,6 @@ def delete_book(book_id):
     
     if book.owner_id != current_user.id:
         return jsonify({"msg": "Unauthorized"}), 403
-    
-    # Delete associated image if exists
-    if book.image_url:
-        try:
-            image_path = os.path.join(current_app.root_path, book.image_url.lstrip('/'))
-            if os.path.exists(image_path):
-                os.remove(image_path)
-        except Exception as e:
-            current_app.logger.error(f"Error deleting image: {e}")
     
     db.session.delete(book)
     db.session.commit()

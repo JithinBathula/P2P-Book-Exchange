@@ -1,4 +1,3 @@
-# routes/chatbot.py
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from models.book import Book
@@ -33,10 +32,8 @@ Your task is to:
 @jwt_required()
 def get_recommendation():
     try:
-        # Get current user
         current_user = User.query.filter_by(username=get_jwt_identity()).first()
         
-        # Get request data
         data = request.get_json()
         user_message = data.get('message', '')
         conversation_history = data.get('conversation_history', [])
@@ -52,7 +49,6 @@ def get_recommendation():
                 "message": "I apologize, but there are no books available for exchange at the moment."
             }), 200
 
-        # Prepare messages for GPT
         messages = [
             {"role": "system", "content": create_system_prompt(available_books)}
         ]
@@ -62,11 +58,9 @@ def get_recommendation():
             role = "assistant" if msg['type'] == 'bot' else "user"
             messages.append({"role": role, "content": msg['content']})
 
-        # Add current user message
         messages.append({"role": "user", "content": user_message})
 
         try:
-            # Get response from GPT
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
