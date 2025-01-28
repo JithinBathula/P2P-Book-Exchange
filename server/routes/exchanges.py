@@ -65,19 +65,20 @@ def request_exchange():
         logging.error(f"Error creating exchange request: {str(e)}")
         db.session.rollback()
         return jsonify({"msg": "Error creating exchange request"}), 500
-
+# routes/exchanges.py
 @exchange_routes.route('/exchanges', methods=['GET'])
 @jwt_required()
 def get_exchanges():
     current_user = User.query.filter_by(username=get_jwt_identity()).first()
     
     # Get exchanges where user is either requester or book owner
+    # Order by created_at in descending order (latest first)
     exchanges = Exchange.query.join(
         Book, Exchange.book_id == Book.id
     ).filter(
         (Exchange.requester_id == current_user.id) | 
         (Book.owner_id == current_user.id)
-    ).all()
+    ).order_by(Exchange.created_at.desc()).all()  # Added order_by here
     
     exchange_list = []
     for exchange in exchanges:
@@ -96,6 +97,7 @@ def get_exchanges():
         exchange_list.append(exchange_data)
     
     return jsonify(exchange_list), 200
+
 
 @exchange_routes.route('/exchanges/<int:exchange_id>', methods=['PUT'])
 @jwt_required()

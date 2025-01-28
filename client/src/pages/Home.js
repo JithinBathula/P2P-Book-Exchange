@@ -54,7 +54,7 @@ function Home({ accessToken }) {
 
   const fetchUserBooks = async () => {
     try {
-      const response = await axios.get('/books/user', {
+      const response = await axios.get('/books/user?for_exchange=true', {
         headers: { Authorization: `Bearer ${accessToken}` }
       });
       setUserBooks(response.data);

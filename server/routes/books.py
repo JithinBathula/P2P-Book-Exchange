@@ -49,16 +49,27 @@ def get_books():
     
     books = query.order_by(Book.created_at.desc()).all()
     return jsonify([book.to_dict() for book in books]), 200
-
+# routes/books.py
 @book_routes.route('/books/user', methods=['GET'])
 @jwt_required()
 def get_user_books():
     current_user = User.query.filter_by(username=get_jwt_identity()).first()
-    # Only show available books for exchange
-    books = Book.query.filter_by(
-        owner_id=current_user.id,
-        status='available'
-    ).order_by(Book.created_at.desc()).all()
+    
+    # Check if this is for exchange options
+    is_for_exchange = request.args.get('for_exchange', 'false') == 'true'
+    
+    if is_for_exchange:
+        # Only return available books for exchange options
+        books = Book.query.filter_by(
+            owner_id=current_user.id,
+            status='available'
+        ).order_by(Book.created_at.desc()).all()
+    else:
+        # Return all books for the My Books page
+        books = Book.query.filter_by(
+            owner_id=current_user.id
+        ).order_by(Book.created_at.desc()).all()
+    
     return jsonify([book.to_dict() for book in books]), 200
 
 @book_routes.route('/books/<int:book_id>', methods=['DELETE'])
