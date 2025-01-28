@@ -23,8 +23,6 @@ jwt.init_app(app)
 # Enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
-# Create static folders if they don't exist
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 app.register_blueprint(auth_routes)
 app.register_blueprint(book_routes)
