@@ -4,6 +4,7 @@ from flask_cors import CORS
 from config import Config
 from extensions import db, jwt
 import os
+from routes.chatbot import chatbot_routes
 
 # Create the Flask application
 app = Flask(__name__)
@@ -16,13 +17,9 @@ jwt.init_app(app)
 # Enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
-# Ensure upload folders exist
+# Create static folders if they don't exist
+os.makedirs(app.config['STATIC_FOLDER'], exist_ok=True)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
-
-# Add explicit route for serving static files
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory(app.config['STATIC_FOLDER'], filename)
 
 # Register blueprints
 from routes.auth import auth_routes
@@ -34,6 +31,7 @@ app.register_blueprint(auth_routes)
 app.register_blueprint(book_routes)
 app.register_blueprint(exchange_routes)
 app.register_blueprint(user_routes)
+app.register_blueprint(chatbot_routes)
 
 # Create database tables
 with app.app_context():

@@ -1,5 +1,7 @@
 // src/pages/Home.js
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'; // Add this import
+
 import {
   Container,
   Grid,
@@ -36,11 +38,19 @@ function Home({ accessToken }) {
     newBookDescription: ''
   });
   const [searchQuery, setSearchQuery] = useState('');
+  const location = useLocation(); // Add this
 
   useEffect(() => {
     fetchBooks();
     fetchUserBooks();
-  }, [accessToken]);
+
+    if (location.state?.selectedBook) {
+        setSelectedBook(location.state.selectedBook);
+        setExchangeDialog(true);
+        // Clear the state
+        window.history.replaceState({}, document.title);
+      }
+    }, [accessToken, location.state]);
 
   const fetchBooks = async () => {
     try {
@@ -175,23 +185,35 @@ function Home({ accessToken }) {
       >
         <DialogTitle>Request Exchange</DialogTitle>
         <DialogContent>
-          <FormControl fullWidth sx={{ mt: 2 }}>
-            <InputLabel>Select your book to offer</InputLabel>
-            <Select
-              value={exchangeForm.offeredBookId}
-              onChange={(e) => setExchangeForm({
-                ...exchangeForm,
-                offeredBookId: e.target.value
-              })}
-            >
-              <MenuItem value="">Offer a new book instead</MenuItem>
-              {userBooks.map((book) => (
-                <MenuItem key={book.id} value={book.id}>
-                  {book.title} by {book.author}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <FormControl fullWidth sx={{ mt: 2 }}>
+    <InputLabel id="book-select-label" sx={{ 
+      '&.Mui-focused': { color: 'primary.main' },
+      '&.MuiInputLabel-shrink': { color: 'primary.main' }
+    }}>
+      Select your book to offer
+    </InputLabel>
+    <Select
+      labelId="book-select-label"
+      value={exchangeForm.offeredBookId}
+      onChange={(e) => setExchangeForm({
+        ...exchangeForm,
+        offeredBookId: e.target.value
+      })}
+      label="Select your book to offer"  // Add this line
+      sx={{
+        '& .MuiSelect-select': {
+          color: 'text.primary'
+        }
+      }}
+    >
+      <MenuItem value="">Offer a new book instead</MenuItem>
+      {userBooks.map((book) => (
+        <MenuItem key={book.id} value={book.id}>
+          {book.title} by {book.author}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
 
           {!exchangeForm.offeredBookId && (
             <>

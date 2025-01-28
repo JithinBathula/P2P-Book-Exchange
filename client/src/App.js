@@ -9,6 +9,8 @@ import MyBooks from './pages/MyBooks';
 import AddBook from './pages/AddBook';
 import MyExchanges from './pages/MyExchanges';
 import Profile from './pages/Profile';
+import ChatBot from './components/ChatBot';
+
 import './styles/App.css';
 
 const theme = createTheme({
@@ -43,10 +45,18 @@ function App() {
     setUser(null);
   };
 
+  const handleChatbotExchange = (book) => {
+    // Navigate to home and trigger exchange dialog
+    Navigate('/', { state: { exchangeBook: book } });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div className="app">
-        {user && <Header user={user} onLogout={handleLogout} />}
+        {user && <><Header user={user} onLogout={handleLogout} />
+        <ChatBot 
+              accessToken={accessToken}/></>}
+
         <main className="main-content">
           <Routes>
             <Route 
