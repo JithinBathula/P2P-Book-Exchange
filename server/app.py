@@ -1,28 +1,39 @@
-from flask import Flask
+# app.py
+from flask import Flask, send_from_directory
+from flask_cors import CORS
+from config import Config
 from extensions import db, jwt
 import os
-from flask_cors import CORS
 
-
+# Create the Flask application
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET', 'super-secret')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(Config)
 
 # Initialize extensions
 db.init_app(app)
 jwt.init_app(app)
 
-# Import routes after initializing extensions
+# Enable CORS
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+# Ensure upload folders exist
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+# Add explicit route for serving static files
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory(app.config['STATIC_FOLDER'], filename)
+
+# Register blueprints
 from routes.auth import auth_routes
 from routes.books import book_routes
 from routes.exchanges import exchange_routes
+from routes.user import user_routes
 
 app.register_blueprint(auth_routes)
 app.register_blueprint(book_routes)
 app.register_blueprint(exchange_routes)
-
-CORS(app, resources={r"/*": {"origins": "*"}})  # NEW: Add this line
+app.register_blueprint(user_routes)
 
 # Create database tables
 with app.app_context():
