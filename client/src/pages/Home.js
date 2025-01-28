@@ -17,7 +17,9 @@ import {
   InputLabel,
   TextField,
   Alert,
+  InputAdornment
 } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search'; // Add this import
 import axios from 'axios';
 
 function Home({ accessToken }) {
@@ -33,6 +35,7 @@ function Home({ accessToken }) {
     newBookAuthor: '',
     newBookDescription: ''
   });
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     fetchBooks();
@@ -51,6 +54,10 @@ function Home({ accessToken }) {
       setLoading(false);
     }
   };
+
+  const filteredBooks = books.filter(book => 
+    book.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const fetchUserBooks = async () => {
     try {
@@ -99,11 +106,30 @@ function Home({ accessToken }) {
         Available Books for Exchange
       </Typography>
 
-      {books.length === 0 ? (
-        <Alert severity="info">No books available for exchange.</Alert>
+      <TextField
+        fullWidth
+        variant="outlined"
+        placeholder="Search books by title..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        sx={{ mb: 3 }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
+
+      {/* Changed this part to use filteredBooks */}
+      {filteredBooks.length === 0 ? (
+        <Alert severity="info">
+          {books.length === 0 ? "No books available for exchange." : "No books match your search."}
+        </Alert>
       ) : (
         <Grid container spacing={3}>
-          {books.map((book) => (
+          {filteredBooks.map((book) => (
             <Grid item xs={12} sm={6} md={4} key={book.id}>
               <Card>
                 <CardContent>
