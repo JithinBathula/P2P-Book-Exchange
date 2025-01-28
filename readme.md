@@ -43,7 +43,6 @@ This is a peer-to-peer book exchange platform designed for users to share and tr
   - Two options for exchange:
     - Offer an existing book from their collection
     - Offer a new book not yet in the system
-  - Real-time status updates on
 
 - **Exchange Management**
   - Users can view both sent and received exchange requests at exchanges page
@@ -173,7 +172,7 @@ npm start
 
 ## Possible Short-Term Improvements
 
-- Code Readability: Enhance code quality with better formatting and meaningful comments.
+- Code Readability: Enhance code quality with better formatting and more comments.
 - Improved UI: Design a more engaging and vibrant interface to improve user experience.
 - More Book Details: Include book images, genres, and other relevant information to simplify selection.
 - Enhanced Security: Implement two-factor authentication and robust data encryption to safeguard user data.
